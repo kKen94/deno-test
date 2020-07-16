@@ -7,13 +7,15 @@ services:
     build:
       context: .
       dockerfile: .docker/deno.dockerfile
+      args:
+        - DENO_HOSTNAME=deno
     depends_on:
       - deno-data
     networks:
       - deno_api
     ports:
-      - "1447:1447"
-    command: bash -c "deno run --allow-net src/main.ts"
+      - "1447:80"
+    command: bash -c "deno run --allow-net --allow-env src/main.ts"
 
   deno-data:
     image: postgres:11.5

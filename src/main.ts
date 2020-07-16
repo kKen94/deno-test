@@ -2,8 +2,8 @@ import { Dexter, Drash, log } from '../deps.ts';
 import { TestController } from './controllers/test-controller.ts';
 
 const SERVER = {
-  PORT: 1447,
-  HOSTNAME: 'localhost',
+  PORT: Deno.env.get('DENO_HOSTNAME') ? 80 : 1447,
+  HOSTNAME: Deno.env.get('DENO_HOSTNAME') ?? 'localhost',
 };
 const serverStart = () => {
   log.info(`Server start on port ${SERVER.HOSTNAME}:${SERVER.PORT}`);

@@ -7,6 +7,9 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local 
 RUN export DENO_INSTALL="/root/.local"
 RUN export PATH="$DENO_INSTALL/bin:$PATH"
 
+ARG DENO_HOSTNAME
+ENV DENO_HOSTNAME=${DENO_HOSTNAME}
+
 WORKDIR /app
 
 # Cache the dependencies as a layer (the following two steps are re-run only when deps.ts is modified).
