@@ -6,13 +6,14 @@ services:
     image: ${REGISTRY:-deno}/deno:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: .docker/deno.dockerfile
     depends_on:
       - deno-data
     networks:
       - deno_api
     ports:
-      - "1447:80"
+      - "1447:1447"
+    command: bash -c "deno run --allow-net src/main.ts"
 
   deno-data:
     image: postgres:11.5
