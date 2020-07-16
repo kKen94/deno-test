@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  deno:
+    container_name: deno
+    image: ${REGISTRY:-deno}/deno:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - deno-data
+    networks:
+      - deno_api
+    ports:
+      - "1447:80"
+
+  deno-data:
+    image: postgres:11.5
+    networks:
+      - deno_api
+    container_name: deno-data
+    volumes:
+      - deno_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=user
+      - PGDATA=/var/lib/postgresql/data/pgdata
+
+networks:
+  deno_api:
+
+volumes:
+  deno_data: {}
