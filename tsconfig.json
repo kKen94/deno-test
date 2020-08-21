@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+//    "importHelpers": true,
+    "lib": ["es2018", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2015"
+//    "paths": {
+//      "@area": ["src/areas/mod.ts"],
+//      "@controller": ["src/controllers/mod.ts"],
+//      "@deps": ["/deps.ts"],
+//      "@exception": ["src/utils/exceptions/mod.ts"]
+//    }
+  }
+}

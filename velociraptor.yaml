@@ -1,6 +1,7 @@
 scripts:
   start:
     desc: Runs the server
+    tsconfig: tsconfig.json
     cmd: deno run --allow-net --allow-env src/main.ts
   cache:
     desc: Caches libraries
