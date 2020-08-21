@@ -1,4 +1,4 @@
-import { Dexter, Drash, log } from '../deps.ts';
+import { Dexter, Drash, log, Paladin } from '../deps.ts';
 import { TestController } from './controllers/test-controller.ts';
 
 const SERVER = {
@@ -22,12 +22,17 @@ const dexter = Dexter({
   }
 });
 
+const paladin = Paladin();
+
 const server = new Drash.Http.Server({
   response_output: 'text/plain',
   resources: [TestController],
   middleware: {
     before_request: [dexter],
-    after_request: [dexter],
+    after_request: [
+      dexter,
+      paladin,
+    ],
   },
 });
 
