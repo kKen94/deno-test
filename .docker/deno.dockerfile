@@ -3,9 +3,12 @@ FROM debian:stable-slim
 RUN apt update -y
 RUN apt install bash curl unzip -y
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.2.0
+RUN curl curl -fsSL https://deno.land/x/install/install.sh | sh
 RUN export DENO_INSTALL="/root/.local"
 RUN export PATH="$DENO_INSTALL/bin:$PATH"
+
+# Install velociraptor script runner
+RUN deno install -qAn vr https://deno.land/x/velociraptor@1.3.0/cli.ts
 
 ARG DENO_HOSTNAME
 ENV DENO_HOSTNAME=${DENO_HOSTNAME}

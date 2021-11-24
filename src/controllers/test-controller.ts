@@ -1,47 +1,47 @@
 import { Drash, v4 } from '../../deps.ts';
 
-export class TestController extends Drash.Http.Resource {
-  static paths = [
+export class TestController extends Drash.Resource {
+  public paths = [
     '/tests',
     '/tests/:id',
   ];
 
-  public GET() {
-    let userId = this.request.getUrlQueryParam("id");
+  public GET(request: Drash.Request, response: Drash.Response) {
+    let userId = request.queryParam("id");
     if (userId) {
       if (!v4.validate(userId)) {
-        return new Drash.Exceptions.HttpException(406, `Id ${userId} param not in uuid v4 format`);
+        return new Drash.Errors.HttpError(406, `Id ${userId} param not in uuid v4 format`);
       }
-      this.response.body = `Id by query param ${userId}`;
-      return this.response;
+      response.body = `Id by query param ${userId}`;
+      return response;
     }
-    userId = this.request.getPathParam('id');
+    userId = request.pathParam('id');
     if (userId) {
       if (!v4.validate(userId)) {
-        return new Drash.Exceptions.HttpException(406, `Id ${userId} param not in uuid v4 format`);
+        return new Drash.Errors.HttpError(406, `Id ${userId} param not in uuid v4 format`);
       }
-      this.response.body = `Id by path param ${userId}`;
-      return this.response;
+      response.body = `Id by path param ${userId}`;
+      return response;
     }
-    this.response.body = 'No one id found, sending back all table';
-    return this.response;
+    response.body = 'No one id found, sending back all table';
+    return response;
   }
 
-  public POST() {
-    const body = this.request.body;
+  public POST(request: Drash.Request, response: Drash.Response) {
+    const body = request.body;
 
-    this.response.body = "POST request received!";
-    return this.response;
+    response.body = "POST request received!";
+    return response;
   }
 
-  public PUT() {
-    this.response.body = "PUT request received!";
-    return this.response;
+  public PUT(request: Drash.Request, response: Drash.Response) {
+    response.body = "PUT request received!";
+    return response;
   }
 
-  public DELETE() {
-    this.response.body = "DELETE request received!";
-    return this.response;
+  public DELETE(request: Drash.Request, response: Drash.Response) {
+    response.body = "DELETE request received!";
+    return response;
   }
 
 }

@@ -1,42 +1,29 @@
-import { Dexter, Drash, log, Paladin } from '../deps.ts';
+import { Drash, log, PaladinService, CSRFService, DexterService } from '../deps.ts';
 import { TestController } from './controllers/test-controller.ts';
 
 const SERVER = {
   PORT: Deno.env.get('DENO_HOSTNAME') ? 80 : 1447,
   HOSTNAME: Deno.env.get('DENO_HOSTNAME') ?? 'localhost',
 };
+
 const serverStart = () => {
   log.info(`Server start on port ${SERVER.HOSTNAME}:${SERVER.PORT}`);
 }
-const serverError = (error: any) => {
-  log.error(error);
-}
-const dexter = Dexter({
-  enabled: true,
-  response_time: true,
-  tag_string: '{level} | {request_method} {request_url} | {datetime} | ',
-  tag_string_fns: {
-    datetime() {
-      return new Date().toISOString().replace('T', ' ').split('.')[0];
-    },
-  }
-});
+// const serverError = (error: any) => {
+//   log.error(error);
+// }
 
-const paladin = Paladin();
-
-const server = new Drash.Http.Server({
-  response_output: 'text/plain',
-  resources: [TestController],
-  middleware: {
-    before_request: [dexter],
-    after_request: [
-      dexter,
-      paladin,
-    ],
-  },
-});
-
-server.run({
+const server = new Drash.Server({
   hostname: SERVER.HOSTNAME,
   port: SERVER.PORT,
-}).then(serverStart, serverError);
+  resources: [TestController],
+  protocol: 'http',
+  services: [
+    new PaladinService(),
+    new CSRFService(),
+    new DexterService(),
+  ],
+});
+
+server.run();
+serverStart();
